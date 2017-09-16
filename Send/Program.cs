@@ -2,13 +2,20 @@
 using System.Linq;
 using RabbitMQ.Client;
 using System.Text;
-
+using Tweetinvi;
 namespace send
 {
     class Program
     {
         public static void Main(string[] args)    
         {
+            Auth.SetUserCredentials("lPZEzMHtQ2OVkLRgIyLVmyJet", "UHrpP7yJxbDJSCCkTcUaxANErFsVmYNnUOSx3jW1PE2NyRQ4zo", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
+
+            // Publish the Tweet "Hello World" on your Timeline
+            Tweet.PublishTweet("Hello World!");
+
+            Console.ReadLine();
+
             // var factory = new ConnectionFactory() { HostName = "166.62.89.37",Port= 8080};
             // using(var connection = factory.CreateConnection())
             // using(var channel = connection.CreateModel())
