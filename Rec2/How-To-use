@@ -1,0 +1,14 @@
+//Agregar las llaves en el ./Send/Program.cs; linea 15
+
+//node; recibe y crea el grafico?
+cd ./Rec2
+npm install
+node encolusho.js
+
+//net consumidor; recibe y envia al node consumidor
+cd ./Rec1
+dotnet run
+
+//net productor; recibe el tweet y envia al net consumidor
+cd ./Send
+dotnet run

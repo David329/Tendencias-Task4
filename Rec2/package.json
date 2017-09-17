@@ -10,6 +10,7 @@
     "express": "latest",
     "body-parser": "latest",
     "twitter": "latest",
+    "amqplib":"latest",
     "json-js ": "latest"
   },
   "author": "",

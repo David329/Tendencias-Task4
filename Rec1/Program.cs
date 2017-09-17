@@ -9,53 +9,45 @@ namespace Rec1
 {
     class Program
     {
-        public static void Main(string[] args)
+        public static void Main()
         {
-            // var factory = new ConnectionFactory() { HostName = "166.62.89.37",Port= 8080 };
-            // using(var connection = factory.CreateConnection())
-            // using(var channel = connection.CreateModel())
-            // {
-            //     channel.ExchangeDeclare(exchange: "direct_logs",type: "direct");
-            //     var queueName = channel.QueueDeclare().QueueName;
+            var factory = new ConnectionFactory() { HostName = "166.62.89.37", Port = 8080 };
+            using (var connection = factory.CreateConnection())
+            using (var channel = connection.CreateModel())
+            {
+                channel.ExchangeDeclare(exchange: "direct_logs", type: "direct");
+                var queueName = channel.QueueDeclare().QueueName;
 
-            //     var severity =  "omnicanal";
+                var severity = "trending";
 
-            //     //foreach(var severity in args)//si hay mas colas
-            //     //{
-            //         channel.QueueBind(queue: queueName,exchange: "direct_logs",routingKey: severity);
-            //     //}
+                channel.QueueBind(queue: queueName, exchange: "direct_logs", routingKey: severity);
 
-            //     Console.WriteLine(" [*] Esperando los mensaje, Canal: omnicanal");
+                Console.WriteLine(" [*] Esperando los mensaje, Canal: trending");
 
-            //     var consumer = new EventingBasicConsumer(channel);
-            //     consumer.Received += (model, ea) =>
-            //     {
-            //         var body = ea.Body;
-            //         var message = Encoding.UTF8.GetString(body);
-            //         var routingKey = ea.RoutingKey;
-            //         Console.WriteLine(" [x] Received '{0}':'{1}'",routingKey, message);
-            //         var response = Http.Post("http://localhost:8080/pedidos", new NameValueCollection() {
-            //             { "pedido", message }
-            //         });
-            //     };
-            //     channel.BasicConsume(queue: queueName,autoAck: true,consumer: consumer);
+                var consumer = new EventingBasicConsumer(channel);
+                consumer.Received += (model, ea) =>
+                {
+                    var body = ea.Body;
+                    var message = Encoding.UTF8.GetString(body);
+                    var routingKey = ea.RoutingKey;
 
-            //     Console.WriteLine(" Presiona [enter] para salir");
-            //     Console.ReadLine();
-            // }
+                    //se lo envio a la cola analytics
+                    body = Encoding.UTF8.GetBytes(message);
+                    channel.BasicPublish(exchange: "direct_logs", routingKey: "analytics", basicProperties: null, body: body);
+
+                    Console.WriteLine(" [x] RecAndSend '{0}':'{1}'", routingKey, message);
+
+                    // var response = Http.Post("http://localhost:8080/pedidos", new NameValueCollection() {
+                    //     { "pedido", message }
+                    // });
+                };
+                channel.BasicConsume(queue: queueName, autoAck: true, consumer: consumer);
+
+                Console.WriteLine(" Presiona [enter] para salir");
+                Console.ReadLine();
+            }
         }
     }
-    // public class Pedido
-    // {
-    //     public string tipo;
-    //     public Producto prod;
-    // }
-    // public class Producto
-    // {
-    //     public string nombre;
-    //     public float precio;
-    //     public int cantidad;
-    // }
     // public static class Http
     // {
     //     public static byte[] Post(string uri, NameValueCollection pairs)
