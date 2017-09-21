@@ -1,5 +1,6 @@
 var clear = require('clear');
-var top10 = [];
+var top10 = {};
+var backupTop10 = {};
 var obj = {};
 var regexp = /#[\w]+(?=\s|$)/g
 
@@ -29,10 +30,14 @@ amqp.connect('amqp://166.62.89.37:8080', function (err, conn) {
                     var cadenaOrdenada = Object.keys(obj).sort(function (a, b) { return obj[b] - obj[a] });
 
                     for (var i = 0; i < 10; i++) {
-                        top10[i] = cadenaOrdenada[i];
+                        top10[cadenaOrdenada[i]] = obj[cadenaOrdenada[i]];
                     }
-                    clear();
-                    console.log(top10);
+                    if (top10 != backupTop10) {
+                        clear();
+                        console.log(top10);
+                    }
+                    backupTop10 = top10;
+                    top10 = {};
                 }
                 // console.log(" [x] %s: '%s'", msg.fields.routingKey, msg.content.toString());
             }, { noAck: true });

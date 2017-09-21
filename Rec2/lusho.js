@@ -13,9 +13,9 @@ msg.forEach(function(element) {
 
 var cadenaOrdenada = Object.keys(obj).sort(function(a,b){return obj[b]-obj[a]});
 
-var top10=[];
+var top10={};
 for(var i=0;i<10;i++){
-    top10[i]=cadenaOrdenada[i];
+    top10[cadenaOrdenada[i]]=obj[cadenaOrdenada[i]];
 }
 clear();
 console.log(top10);
