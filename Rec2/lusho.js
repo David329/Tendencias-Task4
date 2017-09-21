@@ -1,17 +1,21 @@
-// var Twitter = require('twitter');
-// var Auth = require('./auth.js');
+var clear = require('clear');
 
-// var client = new Twitter({
-//     consumer_key: Auth.consumer_key,
-//     consumer_secret: Auth.consumer_secret,
-//     access_token_key: Auth.access_token_key,
-//     access_token_secret: Auth.access_token_secret
-// });
-// // console.info(Auth.consumer_key); //probando probando xd
+var obj={};
+var regexp = /#[\w]+(?=\s|$)/g
 
-// var params = { screen_name: 'nodejs' };
-// client.get('statuses/user_timeline', params, function (error, tweets, response) {
-//     if (!error) {
-//         console.log(tweets);
-//     }
-// });
+var msg="lusho #asd #fafa #fafa #asd #lusho #zc #zc #zc #zc #zc #zc #zc #asd #asd #dsnfjsd #mskmsdsd";
+
+msg=msg.match(regexp);
+msg.forEach(function(element) {
+    !obj[element]?obj[element]=1:obj[element]++;//se crea o se aumenta el hashtag en el arreglo
+    // console.log(obj);
+}, this);
+
+var cadenaOrdenada = Object.keys(obj).sort(function(a,b){return obj[b]-obj[a]});
+
+var top10=[];
+for(var i=0;i<10;i++){
+    top10[i]=cadenaOrdenada[i];
+}
+clear();
+console.log(top10);

@@ -12,7 +12,7 @@ namespace send
         public static void Main()
         {
 
-            Auth.SetUserCredentials("consumerkey","consumsecre","usertoken","usersecret");
+            Auth.SetUserCredentials("lPZEzMHtQ2OVkLRgIyLVmyJet","UHrpP7yJxbDJSCCkTcUaxANErFsVmYNnUOSx3jW1PE2NyRQ4zo","634238606-Io8cuzkSIgIVxqaKotYqxBrdSBzgm31LMw1GThbN","88pb1SP76KAW5e8XEw49BUmrKt8Hf8ASRz28cmdJSokZR");
 
             var stream = Stream.CreateSampleStream();
 
@@ -29,8 +29,7 @@ namespace send
                     var body = Encoding.UTF8.GetBytes(message);
                     channel.BasicPublish(exchange: "direct_logs", routingKey: "trending", basicProperties: null, body: body);
                     Console.WriteLine(" [x] Sent '{0}':'{1}'", "trending", message);
-                    Thread.Sleep(1000); //creo q se cae x esto, no puede controlar el sleep correctamente
-                    //escuchar la entrar y luego break
+                    // Thread.Sleep(500);//pa q valla desssspaaacito xd
                 };
                 stream.StartStream();
             }

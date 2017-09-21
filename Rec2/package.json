@@ -11,7 +11,8 @@
     "body-parser": "latest",
     "twitter": "latest",
     "amqplib":"latest",
-    "json-js ": "latest"
+    "json-js ": "latest",
+    "clear" : "latest"
   },
   "author": "",
   "license": "ISC"

@@ -1,5 +1,9 @@
-var amqp = require('amqplib/callback_api');
+var clear = require('clear');
+var top10 = [];
+var obj = {};
+var regexp = /#[\w]+(?=\s|$)/g
 
+var amqp = require('amqplib/callback_api');
 var severity = "analytics";
 
 amqp.connect('amqp://166.62.89.37:8080', function (err, conn) {
@@ -14,7 +18,23 @@ amqp.connect('amqp://166.62.89.37:8080', function (err, conn) {
             ch.bindQueue(q.queue, ex, severity);
 
             ch.consume(q.queue, function (msg) {
-                console.log(" [x] %s: '%s'", msg.fields.routingKey, msg.content.toString());
+                var message = msg.content.toString();
+                message = message.match(regexp);
+                if (message != null) {
+                    message.forEach(function (element) {
+                        !obj[element] ? obj[element] = 1 : obj[element]++;//se crea o se aumenta el hashtag en el arreglo
+                        // console.log(obj);
+                    }, this);
+
+                    var cadenaOrdenada = Object.keys(obj).sort(function (a, b) { return obj[b] - obj[a] });
+
+                    for (var i = 0; i < 10; i++) {
+                        top10[i] = cadenaOrdenada[i];
+                    }
+                    clear();
+                    console.log(top10);
+                }
+                // console.log(" [x] %s: '%s'", msg.fields.routingKey, msg.content.toString());
             }, { noAck: true });
         });
     });
