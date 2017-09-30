@@ -12,7 +12,7 @@ namespace send
         public static void Main()
         {
 
-            Auth.SetUserCredentials("lPZEzMHtQ2OVkLRgIyLVmyJet","UHrpP7yJxbDJSCCkTcUaxANErFsVmYNnUOSx3jW1PE2NyRQ4zo","634238606-Io8cuzkSIgIVxqaKotYqxBrdSBzgm31LMw1GThbN","88pb1SP76KAW5e8XEw49BUmrKt8Hf8ASRz28cmdJSokZR");
+            Auth.SetUserCredentials("key1","key2","key3","key4");
 
             var stream = Stream.CreateSampleStream();
 
